@@ -19,7 +19,8 @@ class main_window(QMainWindow):
     def __init__(self):
         # superclass and load gui from designer 
         super(main_window, self).__init__()
-        loadUi('gui\\rigidity_experiment_main_window.ui', self)
+        
+        loadUi(os.getcwd() + '\\gui\\rigidity_experiment_main_window.ui', self)
         
         # internal state
         self.option = None
@@ -154,7 +155,7 @@ class main_window(QMainWindow):
         print('[SUCCESS] all preview trajectory generated')
         
         fig = block.plot(trajectory)
-        fig.show()
+        plt.show()
     
     @pyqtSlot()
     def generate(self):
@@ -182,8 +183,7 @@ class main_window(QMainWindow):
             list_block = list_block[1:]
             random.shuffle(list_block)
             list_block = [b0] + list_block
-        
-        
+             
         # assemble all blocks -> all random instances of the block wahts        
         print('generating trajectories for each block')
         self.trajectory = [b.assemble(option) for b in list_block]
@@ -318,7 +318,7 @@ class block(): #add base function
         for traj, ax in zip(trajectory, subaxis):
             ax.plot(traj[:,0], traj[:,1:3])
 
-        ax.set(xlabel = 'time(s)')     
+        ax.set(xlabel = 'time(s)') 
         return fig
 
 if __name__ == "__main__":
