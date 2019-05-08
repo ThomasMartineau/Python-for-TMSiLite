@@ -123,6 +123,13 @@ def rand_interval(x, n = 1, discrete = False):
         return int(x)
     else:  
         return x
+
+def rand_sign(n = 1):
+    x = np.random.rand(n)
+    if x > 0.5:
+        return  1
+    else:
+        return -1
     
 if __name__ == "__main__":
     print(convert_sec(183.34839, True))

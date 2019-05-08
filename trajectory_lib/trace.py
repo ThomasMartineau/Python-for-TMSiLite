@@ -13,7 +13,6 @@ from trajectory_lib import segment as seg
 # all global constants etc
 fs_default = 60
 
-##Blocks
     
 class step():
     # constructor
@@ -29,10 +28,11 @@ class step():
         self.level = level
         self.n = n_instance
         
+        
     # assemble the block -- one step at the time in a inner method loop
-    def bind(self, t_start = 0, t_plateau = 5, t_pause = 5, t_end = 0, fs = fs_default):
+    def bind(self, offset = 0,  t_start = 0, t_plateau = 5, t_pause = 5, t_end = 0, fs = fs_default):
         # initial start
-        x = seg.line(duration = t_start + tool.rand_or_det(t_pause)).generate(fs = fs)
+        x = seg.line(duration = t_start + tool.rand_or_det(t_pause)).generate(offset = offset, fs = fs)
         
         # pause -- plateau -- pause
         for l in self.level:
@@ -42,10 +42,10 @@ class step():
            x = np.append(x, step)
             
            t2 = tool.rand_or_det(t_pause)
-           pause = seg.line(t2).generate(offset = 0, fs = fs)
+           pause = seg.line(t2).generate(offset = offset, fs = fs)
            x = np.append(x, pause)       
         
-        return np.append(x, seg.line(duration = t_end).generate(fs = fs))
+        return np.append(x, seg.line(duration = t_end).generate(offset = offset, fs = fs))
     
     # assemble the trace one-level at the time in an external loop, is open-ended
     def partial_bind(self, l, t_prior = 5 , t_plateau = 5, t_after = 5, fs = fs_default):
@@ -71,13 +71,13 @@ class rand_step(step):
         self.boundary = boundary
         
         # constructor
-        super(rand_step, self).__init__(level = 1, n_instance = 1) # per default -- they will be re-drawn every time bind is called
+        super(rand_step, self).__init__(level = 1,  n_instance = 1) # per default -- they will be re-drawn every time bind is called
     
-    def bind(self, n = 10, t_start = 0, t_plateau = 5, t_pause = 5, t_end = 0, fs = fs_default):
+    def bind(self, n = 10, offset = 0, t_start = 0, t_plateau = 5, t_pause = 5, t_end = 0, fs = fs_default):
         # re-draw distribution
         self.redraw(n)
         # overwrite constructor
-        return super(rand_step, self).bind(t_start, t_plateau , t_pause , t_end , fs = fs_default)
+        return super(rand_step, self).bind(offset, t_start, t_plateau , t_pause , t_end , fs = fs_default)
     
     # re-define bind
     def redraw(self, n):
@@ -97,14 +97,18 @@ class trapezium():
     def __init__(self, slope = [0.25, 0.5, 0.75, 1], level = [0.25, 0.5, 0.75, 1], randomise = True, n_instance = 1): 
         #generate paramter table
         table = list(itertools.product(slope, level))        
+        
         #label parameters
         p = [(k + 1, c[0], c[1]) for k, c in enumerate(table)]
+        
         #save the table
         self.table = p
+        
         #save to parameter
         p *= n_instance      
         if randomise:
            random.shuffle(p)
+        
         self.parameter = p
               
     #time to start, time to pause (number or random interval)
@@ -154,9 +158,9 @@ class ramp_block():
     
 if __name__ == "__main__":
 
-    #plt.plot(step().bind())
+    #plt.plot(step().bind(offset = 0.25))
     
-    plt.plot(rand_step(boundary = [-1, 1]).bind(n = [5, 10], t_plateau=[1,5]))
+    plt.plot(rand_step(boundary = [-1, 1]).bind(n = [5, 10], offset = 0.25, t_plateau= 0.5))
     
     #x,_ = trapezium().bind()
     #plt.plot(x)

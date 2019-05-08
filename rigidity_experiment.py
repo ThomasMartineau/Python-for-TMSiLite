@@ -5,11 +5,8 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
 from PyQt5.uic import loadUi
 
-# from the trajectory library
-from trajectory_lib import trace, segment as seg, tool
-
-# other
-import numpy as np
+from trajectory_lib import tool
+import rigidity_block as experiment
 from matplotlib import pyplot as plt
 import random
 
@@ -103,6 +100,7 @@ class main_window(QMainWindow):
             self.low_perturbation_min_number.setValue(option['low_range'][0])
             self.low_perturbation_max_number.setValue(option['low_range'][1])
             self.torque.setValue(option['max_torque'])
+            self.offset.setValue(option['offset_perturbation'])
             
             print("[SUCCESS] all option loaded")
 
@@ -135,6 +133,7 @@ class main_window(QMainWindow):
         x = [self.low_perturbation_min_number.value(), self.low_perturbation_max_number.value()]
         option['low_range'] = sorted(x)
         option['max_torque'] = self.torque.value()
+        option['offset_perturbation'] = self.offset.value()
         print(option)
         
         return option
@@ -149,12 +148,12 @@ class main_window(QMainWindow):
         print('generating preview trajectory')
         #one instance of each block, with 3 cue
         n = 2
-        list_block = [block(option, 'baseline', n_cue = n), block(option, 'high', n_cue = n),  block(option, 'low', n_cue = n, side = 'right'), block(option, 'low', n_cue = n, side = 'left')]        
+        list_block = [experiment.block(option, 'baseline', n_cue = n), experiment.block(option, 'high', n_cue = n),  experiment.block(option, 'low', n_cue = n, side = 'right'), experiment.block(option, 'low', n_cue = n, side = 'left')]        
         trajectory = [b.assemble(option) for b in list_block]
         
         print('[SUCCESS] all preview trajectory generated')
         
-        fig = block.plot(trajectory)
+        fig = experiment.block.plot(trajectory)
         plt.show()
     
     @pyqtSlot()
@@ -200,129 +199,8 @@ class main_window(QMainWindow):
         #print(np.mean(time))
         
         
-# TMSiLite hi5 programming
-# /TMSiLite: cursor-event /Hi5: [state1-state2-...-stateN]-[para1-para2-...-paraN]
-# controller 
-
-# all fields are normalise between [-1 1] -> [left, right]
-
-# section = [cursor, event, torque]
-# description event: 
-# 0 -- nothing
-# 1 -- go to cue
-# 2 -- baseline
-# 3 -- high perturbation
-# 4 -- low perturbation (left)
-# 5 -- low perturbation (right) 
- 
-# define custom class block --> specific to experiment
-class block(): #add base function   
-    # main function to create the different section of the experiment 
-    def __init__(self, option, condition, n_cue = 5, side = "none"):
-        #super (if needed)
-        
-        # Block type
-        self.condition = condition
-        self.side = side
-        
-        # Cue and Perturbation
-        A = option['max_amplitude']
-        self.cue = trace.step(level = [-A, A], randomise = True, n_instance = n_cue) # return between left/right
-        self.perturbation = None
-
-        # Meta-information
-        self.time = None
-        
-        # create section type 
-        T = option['max_torque']
-        if condition is "high":
-            # define high perturbation section  
-            self.perturbation = trace.rand_step(boundary = [-T, T])
-            
-        elif condition is "low" and side is not "none":
-            # define low perturbation section 
-            if side is "right":
-                # boundary -- right 1
-                self.perturbation = trace.rand_step(boundary = [0, T])
-                
-            elif side is "left":
-                # boundary -- left -1 
-                self.perturbation = trace.rand_step(boundary = [-T, 0])
-                
-    def assemble(self, option):
-
-        # t_start: time at the beginning of the block
-        # hold_cue: time to hold the cue
-        # after_cue: time to rejoin zero hold point, without perturbation
-        # occ_perturbation: time or time interval between perturbation
-        
-        # for the baseline
-        if self.condition is "baseline":
-            # bind the entire baseline
-            c = self.cue.bind(t_start = option['start'], t_plateau = option['hold_cue'], t_pause = option['occ_cue'])
-            
-            # append
-            x = np.zeros_like(c)
-            m = np.zeros_like(c) + (abs(c) > 0)
-            
-            # tag all the series
-
-        else:
-            # start
-            c, x, m = 3*(seg.line(option['start']).generate(),)
-        
-            if self.condition is "high":
-                n = option['high_range'] # between 4 or 6 perturbation between each cue
-                tag = 3
-            
-            elif self.condition is "low":
-                n = option['low_range'] # between 10 and 12 perturbation between each cue
-                
-                #tag all the sides
-                if self.side is "right":
-                    tag = 4
-                
-                elif self.side is "left":
-                    tag = 5
-                    
-            # for every level in cue
-            for l in self.cue.level:
-                # perturbation 
-                p = self.perturbation.bind(n = n, t_plateau = option['hold_perturbation'], t_pause = option['occ_perturbation'])
-                
-                # append
-                c = np.append(c, np.zeros_like(p))
-                x = np.append(x, p)
-                m = np.append(m, tag*np.ones_like(p))
-                
-                # for every steps 
-                q = self.cue.partial_bind(l, t_prior = 0, t_plateau = option['hold_cue'], t_after = option['after_cue'])
-                
-                # append
-                c = np.append(c, q)
-                x = np.append(x, np.zeros_like(q))
-                m = np.append(m, np.zeros_like(q) + (abs(q) > 0))
-                
-        # get time vector
-        t = tool.get_time(c)
-        self.time = tool.measure_time(c)    
-        
-        return np.transpose(np.vstack((t, c, x, m)))
-    
-    # utility function
-    @staticmethod    
-    def plot(trajectory):
-        # create necessary amount of subplots
-        fig, subaxis = plt.subplots(len(trajectory), sharey = True)
-        
-        for traj, ax in zip(trajectory, subaxis):
-            ax.plot(traj[:,0], traj[:,1:3])
-
-        ax.set(xlabel = 'time(s)') 
-        return fig
-
 if __name__ == "__main__":
-    
+  
     # start the app
     app = QApplication(sys.argv)
     widget = main_window()

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0" idbasedtr="false">
+<ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
@@ -140,14 +140,7 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>Max Torque</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
+       <item row="11" column="0">
         <widget class="QLabel" name="label_11">
          <property name="text">
           <string/>
@@ -164,24 +157,10 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>High Perturbation</string>
-         </property>
-        </widget>
-       </item>
        <item row="7" column="0">
         <widget class="QLabel" name="label_18">
          <property name="text">
           <string>Low Perturbation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="2">
-        <widget class="QSpinBox" name="low_perturbation_min_number">
-         <property name="value">
-          <number>10</number>
          </property>
         </widget>
        </item>
@@ -196,6 +175,13 @@
         <widget class="QSpinBox" name="high_perturbation_max_number">
          <property name="value">
           <number>6</number>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QSpinBox" name="low_perturbation_min_number">
+         <property name="value">
+          <number>10</number>
          </property>
         </widget>
        </item>
@@ -220,6 +206,20 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>High Perturbation</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>Max Torque</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="2">
         <widget class="QDoubleSpinBox" name="per_min_time">
          <property name="singleStep">
@@ -240,6 +240,23 @@
          </property>
          <property name="value">
           <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>Offset</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="2" colspan="2">
+        <widget class="QDoubleSpinBox" name="offset">
+         <property name="maximum">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.050000000000000</double>
          </property>
         </widget>
        </item>
@@ -370,6 +387,13 @@
          </property>
          <property name="value">
           <double>0.800000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
