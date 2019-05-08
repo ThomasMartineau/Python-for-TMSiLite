@@ -6,28 +6,29 @@ import numpy as np
 import itertools
 import random
 
-#other sub-modules
-from trajectory_lib import tool
-from trajectory_lib import segment as seg
-
 # all global constants etc
-fs_default = 60
+fs_default = 50
+
+if __name__ is not "__main__":
+    from trajectory_lib  import tool 
+    from trajectory_lib  import segment as seg
+else:   
+    import tool 
+    import segment as seg
 
     
 class step():
     # constructor
     def __init__(self, level = [0.25, 0.5, 0.75, 1], randomise = False,  n_instance = 1):
         # copy the number of instance
-        level *= tool.rand_or_det(n_instance, discrete = True)
-         
+        level *= n_instance      
+        
         # shuffle the levels
         if randomise:
-            random.shuffle(level)
+            random.shuffle(level)      
         
         # levels 
         self.level = level
-        self.n = n_instance
-        
         
     # assemble the block -- one step at the time in a inner method loop
     def bind(self, offset = 0,  t_start = 0, t_plateau = 5, t_pause = 5, t_end = 0, fs = fs_default):
@@ -64,29 +65,58 @@ class step():
         return x
                         
 
-class rand_step(step):
+class rand_step():
     # constructor
     def __init__(self, boundary = [0, 1]):
-        # limits of the random distrubution 
-        self.boundary = boundary
-        
         # constructor
-        super(rand_step, self).__init__(level = 1,  n_instance = 1) # per default -- they will be re-drawn every time bind is called
-    
-    def bind(self, n = 10, offset = 0, t_start = 0, t_plateau = 5, t_pause = 5, t_end = 0, fs = fs_default):
-        # re-draw distribution
-        self.redraw(n)
-        # overwrite constructor
-        return super(rand_step, self).bind(offset, t_start, t_plateau , t_pause , t_end , fs = fs_default)
-    
-    # re-define bind
-    def redraw(self, n):
-        # change the number of instace
-        n = tool.rand_or_det(n, discrete = True)
-        # random
-        self.level = tool.rand_interval(self.boundary, n = n)
-        self.n = n
+        self.boundary = boundary
+              
+    def bind(self, n = 10, offset = 0, t_start = 0, t_plateau = 5, t_pause = 5, t_end = 0, fs = fs_default):        
+        # overwrite constructor -> no offset
+        self.offset = offset
         
+        # initial start
+        x = seg.line(duration = t_start + tool.rand_or_det(t_pause)).generate(offset = offset, fs = fs)
+        
+        # pause -- plateau -- pause
+        for l in self.get_level(n, offset):
+ 
+           # append
+           t1 = tool.rand_or_det(t_plateau)
+           step = seg.line(t1).generate(offset = l, fs = fs)
+           x = np.append(x, step)
+            
+           t2 = tool.rand_or_det(t_pause)
+           pause = seg.line(t2).generate(offset = offset, fs = fs)
+           x = np.append(x, pause)  
+           
+           x = np.append(x, seg.line(duration = t_end).generate(offset = offset, fs = fs))
+           
+        return x
+        
+    # define level level property
+    def get_level(self, n = 1, offset = 0):
+        # change the number of instance
+        n = tool.rand_or_det(n, discrete = True)
+        bound = self.get_boundary(offset)
+        # random
+        return tool.rand_interval(bound, n = n)
+    
+    # define the boundary property
+    def get_boundary(self, offset = 0):
+        x = self.boundary.copy()
+        # offset
+        x[0] += offset
+        x[1] += offset
+        
+        # clip
+        if x[0] < -1:
+            x[0] = -1
+        elif x[1] > 1:
+            x[1] = 1       
+        return x
+            
+    
 class randn_step(step):
     # constructor
     def __init__(self, mu = 0, sig = 0, n_instance = 10):
@@ -160,8 +190,12 @@ if __name__ == "__main__":
 
     #plt.plot(step().bind(offset = 0.25))
     
-    plt.plot(rand_step(boundary = [-1, 1]).bind(n = [5, 10], offset = 0.25, t_plateau= 0.5))
+    s = rand_step(boundary = [0, 1])
+    x = s.bind(n = 5, offset = -0.25)
+    plt.plot(x)
+        
     
+
     #x,_ = trapezium().bind()
     #plt.plot(x)
     

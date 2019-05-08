@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 # all global constants etc
-fs_default = 60
+fs_default = 50
 
 ##Segments---------------------------------------------------------------------    
 class line():

@@ -8,6 +8,7 @@ from PyQt5.uic import loadUi
 from trajectory_lib import tool
 import rigidity_block as experiment
 from matplotlib import pyplot as plt
+import numpy as np
 import random
 
 # Main windows 
@@ -167,14 +168,14 @@ class main_window(QMainWindow):
         list_block = []
         
         # Baseline
-        list_block += [block(option, 'baseline', n_cue = option['cue'])] * option['baseline']
+        list_block += [experiment.block(option, 'baseline', n_cue = option['cue'])] * option['baseline']
         
         # High Perturbation
-        list_block += [block(option, 'high', n_cue = option['cue'])] * option['high']
+        list_block += [experiment.block(option, 'high', n_cue = option['cue'])] * option['high']
         
         # Low Perturbation 
-        list_block += [block(option, 'low', n_cue = option['cue'], side = 'left')] * option['low_left']
-        list_block += [block(option, 'low', n_cue = option['cue'], side = 'right')] * option['low_right']
+        list_block += [experiment.block(option, 'low', n_cue = option['cue'], side = 'left')] * option['low_left']
+        list_block += [experiment.block(option, 'low', n_cue = option['cue'], side = 'right')] * option['low_right']
        
         # schulffle all trials except the first baseline if radio button is engaged 
         if option['randomise']:

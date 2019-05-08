@@ -6,7 +6,6 @@ from trajectory_lib import trace, segment as seg, tool
 import numpy as np
 from matplotlib import pyplot as plt
 
-
 # TMSiLite hi5 programming
 # /TMSiLite: cursor-event /Hi5: [state1-state2-...-stateN]-[para1-para2-...-paraN]
 # controller 
@@ -107,13 +106,9 @@ class block(): #add base function
                   
                 # perturbation offset 
                 offset = tool.rand_sign()*option['offset_perturbation']
-                bound = self.perturbation.boundary
-                print(self.perturbation.boundary)
                 
                 # perturbation assembly
-                p = self.perturbation.bind(n = n, t_plateau = option['hold_perturbation'], t_pause = option['occ_perturbation'])
-                #p += offset*np.ones_like(p)
-                #p = np.clip(p, bound[0], bound[1])
+                p = self.perturbation.bind(n = n, offset = offset, t_plateau = option['hold_perturbation'], t_pause = option['occ_perturbation'])
                 
                 # append
                 c = np.append(c, np.zeros_like(p))
@@ -133,17 +128,6 @@ class block(): #add base function
         self.time = tool.measure_time(c)    
         
         return np.transpose(np.vstack((t, c, x, m)))
-    
-    
-    # utility function
-    def get_boundary(self, offset):
-        x = self.perturbation.boundary
-        if x[0] > offset:
-            x[0] = offset
-                
-        elif x[1] < offset:
-            x[1] = offset
-        return x
     
     @staticmethod    
     def plot(trajectory):

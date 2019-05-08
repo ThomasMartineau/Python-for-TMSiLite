@@ -9,7 +9,7 @@ import scipy.integrate as integrate
 import csv
 
 #all global constants etc
-fs_default = 60
+fs_default = 50
 
 # plotting
 def plot_trajectory(x, freq = None, fs = fs_default): 
