@@ -12,7 +12,7 @@ import csv
 fs_default = 50
 
 # plotting
-def plot_trajectory(x, freq = None, fs = fs_default): 
+def plot_trajectory(x, fs = fs_default): 
     
     t = get_time_min(x)
     f, ax = plt.subplots()

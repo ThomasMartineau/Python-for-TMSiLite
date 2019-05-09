@@ -163,7 +163,7 @@ class trapezium():
         
         return x, y
 
-class ramp_block():
+class ramp():
     # constructor
     def __init__(self, level = [1, 2, 3], randomise = True, n_instance = 1):
         #generate parameter table
@@ -176,9 +176,9 @@ class ramp_block():
     
     def bind(self, t_start = 5, t_transition = 5,  t_plateau = 5, fs = fs_default):
         #segment
-        x = seg.line(duration = t_start).generate(fs = fs)
+        x = seg.line(duration = t_start).generate(offset = self.parameter[0], fs = fs)
         
-        for p in self.parameter:
+        for p in self.parameter[1:]:
             plateau = seg.line(t_plateau).generate(p)
             transition = seg.ramp(t_transition).generate(x[-1], plateau[0]);
             x = np.append(x, transition)
@@ -188,15 +188,17 @@ class ramp_block():
     
 if __name__ == "__main__":
 
-    #plt.plot(step().bind(offset = 0.25))
+#    plt.plot(step().bind(offset = 0.25))
+#    
+#    s = rand_step(boundary = [0, 1])
+#    x = s.bind(n = 5, offset = -0.25)
+#    plt.plot(x)
+#        
+#    x,_ = trapezium().bind()
+#    plt.plot(x)
     
-    s = rand_step(boundary = [0, 1])
-    x = s.bind(n = 5, offset = -0.25)
-    plt.plot(x)
-        
-    
-
-    #x,_ = trapezium().bind()
-    #plt.plot(x)
-    
-    #plt.plot(ramp_block().bind())
+     chirp = ramp(level = [0.5,1], randomise = False, n_instance = 1)   
+     f = chirp.bind(t_start = 5, t_transition = 60, t_plateau = 5)
+     w = tool.frequency_trajectory_to_chirp(f) 
+     tool.plot_trajectory(f)
+     tool.plot_trajectory(w)
