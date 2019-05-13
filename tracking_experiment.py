@@ -140,8 +140,9 @@ class main_window(QMainWindow):
         
         chirp = trace.ramp(level = option['chirp_frequency'], randomise = False, n_instance = 1)
         f = chirp.bind(t_start = option['chirp_start'], t_transition = option['chirp_ramp'], t_plateau = option['chirp_plateau'])
-        w = tool.frequency_trajectory_to_chirp(f, A = option['chirp_amplitude']) 
-        tool.plot_trajectory(w)
+        x = tool.frequency_trajectory_to_chirp(f, A = option['chirp_amplitude'])
+        x = np.tile(x, 2)
+        tool.plot_trajectory(x)
         plt.show()
 
         print('[SUCCESS] all preview trajectory generated')
@@ -166,8 +167,9 @@ class main_window(QMainWindow):
         chirp = trace.ramp(level = option['chirp_frequency'], randomise = False, n_instance = 1)
         f = chirp.bind(t_start = option['chirp_start'], t_transition = option['chirp_ramp'], t_plateau = option['chirp_plateau'])
         f = np.append(f, segment.line(option['chirp_start']).generate())
-        f = np.tile(f, option['chirp_repetition'])
-        x = tool.frequency_trajectory_to_chirp(f, A = option['chirp_amplitude']) 
+        x = tool.frequency_trajectory_to_chirp(f, A = option['chirp_amplitude'])
+        x = np.tile(x, option['chirp_repetition'])
+        
         event = (f[1:] > 0)
         self.trajectory += [np.transpose(np.vstack((x, event)))]
         t = tool.measure_time(x)
