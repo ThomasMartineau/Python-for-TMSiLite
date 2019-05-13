@@ -49,32 +49,47 @@ def convert_sec(t, string = False):
         return time
 
 # write 
-def write_to_csv(name, X, header = None):    
-    with open(name, 'w', newline = '') as target:
-        
+def write_to_csv(name, X, header = None, append = False):
+    # comman flow control for saving different data types
+    def write_to(target, X, header):
         # get the writing function
         w = csv.writer(target)
         
+        if header is not None:
+            w.writerow(header)
+        
         # for numpy arrays
         if type(X) is np.ndarray:
-            if header is not None:
-                w.writerow(header)
-                
             # proceed per column 
             for k in range(0, X.shape[0]):
                 w.writerow(X[k])
+                
+        # for lists
+        if type(X) is list:
+            for x in X:
+                w.writerow(x)
         
+        # for dictionary types
         elif type(X) is dict:
             for key, value in zip(X.keys(), X.values()):
-                
                 # if the value is already a list
                 if type(value) is list:
                     row = [key] + value
                 else:
                     row = [key, value]
-                    
+   
                 w.writerow(row)
 
+    # flow control to create or edit files
+    if not append:
+        with open(name, 'w', newline = '') as target:
+            write_to(target, X, header)
+    else:
+         with open(name, 'a', newline = '') as target:
+             write_to(target, X, header)
+
+    
+         
 def read_to_csv(name, output = dict):
     with open(name) as target:
         # get reading function
@@ -132,16 +147,12 @@ def rand_sign(n = 1):
         return -1
     
 if __name__ == "__main__":
-    print(convert_sec(183.34839, True))
     
-    name = "C:/Users/tlm111/Documents/PhD year 2/repository/Python-for-TMSiLite/test_save//Option.csv"
+    name = "C:\\Users\\Thomas Martineau\\Desktop\\tracking\\Config.csv"
     X = {'test1': 1, 'test2':[2, 3], 'test3': False}
     write_to_csv(name, X)
-    
-    X = read_to_csv(name)
-    print(X)
-    X = clean_csv_dict(X)
-    print(X)
+    X = {'test1': True, 'test2':'x', 'test3': [5,6]}
+    write_to_csv(name, X, append = True)
     
 #    name = "C:/Users/tlm111/Documents/PhD year 2/repository/Python-for-TMSiLite/test_save//Block_0.csv"
 #    X = np.random.rand(4,5)

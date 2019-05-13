@@ -132,7 +132,7 @@ class trapezium():
         p = [(k + 1, c[0], c[1]) for k, c in enumerate(table)]
         
         #save the table
-        self.table = p
+        self.table = p.copy()
         
         #save to parameter
         p *= n_instance      

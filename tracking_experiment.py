@@ -7,7 +7,6 @@ from PyQt5.uic import loadUi
 from trajectory_lib import trace, segment, tool
 from matplotlib import pyplot as plt
 import numpy as np
-import random
 
 # Main windows 
 class main_window(QMainWindow):
@@ -21,7 +20,7 @@ class main_window(QMainWindow):
         # internal state
         self.option = None
         self.trajectory = []
-        self.parameter = []
+        self.table = None
         
         # define button behaviour
         self.generate_button.clicked.connect(self.generate)
@@ -41,12 +40,17 @@ class main_window(QMainWindow):
             # check that the directory is empty
             if len(os.listdir(target)) is 0:
                 # if the trajectory haven't been generated, generate them
-                if self.trajectory is None: self.generate() 
+                if not self.trajectory: self.generate() 
                     
                 # add the config file
-                name = target + "//Config" + ".csv"
-                #tool.write_to_csv(name, self.option[0], header = ["Ramp", "Parameter"])
-                #tool.write_to_csv(name, self.option[0], header = ["Chirp", "Parameter"])
+                name = target + "//Config.csv"
+                
+                # config for the ramps
+                tool.write_to_csv(name, self.option)
+            
+                # add an event marker file
+                name = target + "//Table.csv"
+                tool.write_to_csv(name, self.table, header = ["Event", "Slope", "Level"])
                 
                 # write the trajectories
                 for k, X in enumerate(self.trajectory):
@@ -75,77 +79,68 @@ class main_window(QMainWindow):
         if target is not '':
             # get the option
             option = tool.clean_csv_dict(tool.read_to_csv(target))
-            
-            # block design
-            self.start_time.setValue(option['start'])
-            self.baseline.setValue(option['baseline'])
-            self.high_perturbation.setValue(option['high'])
-            self.perturbation_right.setValue(option['low_right'])
-            self.perturbation_left.setValue(option['low_left'])
-            self.shuffle_block.setChecked(option['randomise'])
-            
+                      
             # Ramp
-            self.number_cue.setValue(2*option['cue'])
-            self.cue_holding_time.setValue(option['hold_cue'])
-            self.cue_return_time.setValue(option['after_cue'])
-            self.cue_min_time.setValue(option['occ_cue'][0])
-            self.cue_max_time.setValue(option['occ_cue'][1])
-            self.max_amplitude.setValue(option['max_amplitude'])
+            self.Ramp_Slope.setText(str(option['ramp_slope']))
+            self.Ramp_Level.setText(str(option['ramp_level']))
+            self.Ramp_Min_Pause_Time.setValue(option['ramp_pause'][0])
+            self.Ramp_Max_Pause_Time.setValue(option['ramp_pause'][1])
+            self.Ramp_Plateau_Time.setValue(option['ramp_plateau'])
+            self.Ramp_Repetition.setValue(option['ramp_repetition'])
+            self.Ramp_Order.setChecked(option['ramp_randomise'])
             
             # Chirp
-            self.per_min_time.setValue(option['occ_perturbation'][0])
-            self.per_max_time.setValue(option['occ_perturbation'][1])
-            self.per_holding_time.setValue(option['hold_perturbation'])
-            self.high_perturbation_min_number.setValue(option['high_range'][0])
-            self.high_perturbation_max_number.setValue(option['high_range'][1])
-            self.low_perturbation_min_number.setValue(option['low_range'][0])
-            self.low_perturbation_max_number.setValue(option['low_range'][1])
-            self.torque.setValue(option['max_torque'])
-            self.offset.setValue(option['offset_perturbation'])
+            self.Max_Frequency.setValue(option['chirp_frequency'][0])
+            self.Chirp_Start_Time.setValue(option['chirp_start'])
+            self.Chirp_Ramp_Time.setValue(option['chirp_ramp'])
+            self.Chirp_Plateau_Time.setValue(option['chirp_plateau'])
+            self.Chirp_Max_Amplitude.setValue(option['chirp_amplitude'])
+            self.Chirp_Repetition.setValue(option['chirp_repetition'])
             
             print("[SUCCESS] all option loaded")
 
     def get_option(self):
+        print('retrieving block and trajectory options')
+        
         # empty dictionary
-        ramp_option = {}
-        chirp_option = {}
+        option = {}
         
         # Ramp
-        ramp_option['slope'] = eval(self.Ramp_Slope.text())
-        ramp_option['level'] = eval(self.Ramp_Level.text())
+        option['ramp_slope'] = eval(self.Ramp_Slope.text())
+        option['ramp_level'] = eval(self.Ramp_Level.text())
         p = [self.Ramp_Min_Pause_Time.value(), self.Ramp_Max_Pause_Time.value()]
-        ramp_option['pause'] = sorted(p)
-        ramp_option['plateau'] = self.Ramp_Plateau_Time.value()
-        ramp_option['repetition'] = self.Ramp_Repetition.value()
-        ramp_option['randomise'] = self.Ramp_Order.isChecked()
+        option['ramp_pause'] = sorted(p)
+        option['ramp_plateau'] = self.Ramp_Plateau_Time.value()
+        option['ramp_repetition'] = self.Ramp_Repetition.value()
+        option['ramp_randomise'] = self.Ramp_Order.isChecked()
         
         # Chirp
-        chirp_option['frequency'] = [0, self.Max_Frequency.value()]
-        chirp_option['start'] = self.Chirp_Start_Time.value()
-        chirp_option['ramp'] = self.Chirp_Ramp_Time.value()
-        chirp_option['plateau'] = self.Chirp_Plateau_Time.value()
-        chirp_option['amplitude'] = self.Chirp_Max_Amplitude.value()
-        chirp_option['repetition'] = self.Chirp_Repetition.value()
+        option['chirp_frequency'] = [0, self.Max_Frequency.value()]
+        option['chirp_start'] = self.Chirp_Start_Time.value()
+        option['chirp_ramp'] = self.Chirp_Ramp_Time.value()
+        option['chirp_plateau'] = self.Chirp_Plateau_Time.value()
+        option['chirp_amplitude'] = self.Chirp_Max_Amplitude.value()
+        option['chirp_repetition'] = self.Chirp_Repetition.value()
         
-        return ramp_option, chirp_option
+        self.option = option
+        print(option)
+        
+        return option
     
     @pyqtSlot()
     def preview(self):
-        print('retriving block and trajectory options')
         #created an option dictionary option
-        ramp_option, chirp_option = self.get_option()
-        print(ramp_option)
-        print(chirp_option)
+        option = self.get_option()
         
         print('generating preview trajectory')
         #one instance of each block
-        ramp = trace.trapezium(ramp_option['slope'], ramp_option['level'], randomise = ramp_option['randomise'])
-        x, _ = ramp.bind(t_pause = ramp_option['pause'], t_plateau = ramp_option['plateau'])
+        ramp = trace.trapezium(option['ramp_slope'], option['ramp_level'], randomise = option['ramp_randomise'])
+        x, _ = ramp.bind(t_pause = option['ramp_pause'], t_plateau = option['ramp_plateau'])
         tool.plot_trajectory(x)
         
-        chirp = trace.ramp(level = chirp_option['frequency'], randomise = False, n_instance = 1)
-        f = chirp.bind(t_start = chirp_option['start'], t_transition = chirp_option['ramp'], t_plateau = chirp_option['plateau'])
-        w = tool.frequency_trajectory_to_chirp(f, A = chirp_option['amplitude']) 
+        chirp = trace.ramp(level = option['chirp_frequency'], randomise = False, n_instance = 1)
+        f = chirp.bind(t_start = option['chirp_start'], t_transition = option['chirp_ramp'], t_plateau = option['chirp_plateau'])
+        w = tool.frequency_trajectory_to_chirp(f, A = option['chirp_amplitude']) 
         tool.plot_trajectory(w)
         plt.show()
 
@@ -153,32 +148,26 @@ class main_window(QMainWindow):
         
     @pyqtSlot()
     def generate(self):
-        
-        # create an option dictionary option 
-        print('retrieving block and trajectory options')
         #created an option dictionary option
-        ramp_option, chirp_option = self.get_option()
-        self.option = [ramp_option, chirp_option]
-        print(ramp_option)
-        print(chirp_option)
-        
+        option = self.get_option()        
+       
         print('generating trajectory')
         #one instance of each block
         #RAMP
-        ramp = trace.trapezium(ramp_option['slope'], ramp_option['level'], randomise = ramp_option['randomise'], n_instance = ramp_option['repetition'])
-        x, event = ramp.bind(t_pause = ramp_option['pause'], t_plateau = ramp_option['plateau'])
+        ramp = trace.trapezium(option['ramp_slope'], option['ramp_level'], randomise = option['ramp_randomise'], n_instance = option['ramp_repetition'])
+        self.table = ramp.table
+        x, event = ramp.bind(t_pause = option['ramp_pause'], t_plateau = option['ramp_plateau'])
         self.trajectory += [np.transpose(np.vstack((x, event)))]
         t = tool.measure_time(x)
         self.Ramp_Display.display(tool.convert_sec(t, string = True))
-        # parameter list
         
         
         #CHIRP
-        chirp = trace.ramp(level = chirp_option['frequency'], randomise = False, n_instance = 1)
-        f = chirp.bind(t_start = chirp_option['start'], t_transition = chirp_option['ramp'], t_plateau = chirp_option['plateau'])
-        f = np.append(f, segment.line(chirp_option['start']).generate())
-        f = np.tile(f, chirp_option['repetition'])
-        x = tool.frequency_trajectory_to_chirp(f, A = chirp_option['amplitude']) 
+        chirp = trace.ramp(level = option['chirp_frequency'], randomise = False, n_instance = 1)
+        f = chirp.bind(t_start = option['chirp_start'], t_transition = option['chirp_ramp'], t_plateau = option['chirp_plateau'])
+        f = np.append(f, segment.line(option['chirp_start']).generate())
+        f = np.tile(f, option['chirp_repetition'])
+        x = tool.frequency_trajectory_to_chirp(f, A = option['chirp_amplitude']) 
         event = (f[1:] > 0)
         self.trajectory += [np.transpose(np.vstack((x, event)))]
         t = tool.measure_time(x)
