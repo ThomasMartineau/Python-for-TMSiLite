@@ -78,20 +78,24 @@ class rand_step():
         # initial start
         x = seg.line(duration = t_start + tool.rand_or_det(t_pause)).generate(offset = offset, fs = fs)
         
+        level = self.get_level(n, offset)
+        last = len(level)-1
         # pause -- plateau -- pause
-        for l in self.get_level(n, offset):
- 
+        for k, l in enumerate(level):
            # append
            t1 = tool.rand_or_det(t_plateau)
            step = seg.line(t1).generate(offset = l, fs = fs)
            x = np.append(x, step)
-            
-           t2 = tool.rand_or_det(t_pause)
+           
+           # use t_end on the last level
+           if k < last:
+               t2 = tool.rand_or_det(t_pause)
+           else:
+               t2 = tool.rand_or_det(t_end)
+               
            pause = seg.line(t2).generate(offset = offset, fs = fs)
            x = np.append(x, pause)  
-           
-           x = np.append(x, seg.line(duration = t_end).generate(offset = offset, fs = fs))
-           
+                   
         return x
         
     # define level level property
@@ -188,17 +192,13 @@ class ramp():
     
 if __name__ == "__main__":
 
-#    plt.plot(step().bind(offset = 0.25))
-#    
-#    s = rand_step(boundary = [0, 1])
-#    x = s.bind(n = 5, offset = -0.25)
-#    plt.plot(x)
-#        
-#    x,_ = trapezium().bind()
-#    plt.plot(x)
+    s = rand_step(boundary = [0, 1])
+    x = s.bind(n = 4, offset = -0.25, t_pause= 5, t_end = 20)
+    plt.plot(x)
+        
     
-     chirp = ramp(level = [0.5,1], randomise = False, n_instance = 1)   
-     f = chirp.bind(t_start = 5, t_transition = 60, t_plateau = 5)
-     w = tool.frequency_trajectory_to_chirp(f) 
-     tool.plot_trajectory(f)
-     tool.plot_trajectory(w)
+#     chirp = ramp(level = [0.5,1], randomise = False, n_instance = 1)   
+#     f = chirp.bind(t_start = 5, t_transition = 60, t_plateau = 5)
+#     w = tool.frequency_trajectory_to_chirp(f) 
+#     tool.plot_trajectory(f)
+#     tool.plot_trajectory(w)

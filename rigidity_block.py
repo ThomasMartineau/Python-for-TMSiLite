@@ -15,46 +15,44 @@ from matplotlib import pyplot as plt
 # section = [cursor, event, torque]
 # description event: 
 # 0 -- nothing
-# 1 -- go to cue
-# 2 -- baseline
-# 3 -- high perturbation
-# 4 -- low perturbation (left)
-# 5 -- low perturbation (right) 
- 
+# 1 - high with random
+# 2 - high on clockwise
+# 3 - high on counterclockwise
+# 4 - low rand
+# 5 - low on clockwise
+# 6 - low on counter clockwise
+
 # define custom class block --> specific to experiment
 class block(): #add base function   
     # main function to create the different section of the experiment 
-    def __init__(self, option, condition, n_cue = 5, side = "none"):
-        #super (if needed)
-        
-        # Block type
+    def __init__(self, n, option, condition):        
+        # Block Type
         self.condition = condition
-        self.side = side
         
-        # Cue and Perturbation
+        # Cue
         A = option['max_amplitude']
-        self.cue = trace.step(level = [-A, A], randomise = True, n_instance = n_cue) # return between left/right
+        self.cue = trace.step(level = [-A, A], randomise = True, n_instance = n) # return between left/right
         self.perturbation = None
 
-        # Meta-information
-        self.time = None
-        
-        # create section type 
+        # Perturbation 
         T = option['max_torque']
-        
-        if condition is "high":
+    
+        if condition[0] == 'High':
             # define high perturbation section  
             self.perturbation = trace.rand_step(boundary = [-T, T])
             
-        elif condition is "low" and side is not "none":
+        elif condition[0] == 'Low':
             # define low perturbation section 
-            if side is "right":
+            if option['handle'] == 'right':
                 # boundary -- right 1
                 self.perturbation = trace.rand_step(boundary = [0, T])
                 
-            elif side is "left":
+            elif option['handle'] == 'left':
                 # boundary -- left -1 
                 self.perturbation = trace.rand_step(boundary = [-T, 0])
+                
+        # Meta-information
+        self.time = None
                 
     def assemble(self, option):
         # t_start: time at the beginning of the block
@@ -63,7 +61,7 @@ class block(): #add base function
         # occ_perturbation: time or time interval between perturbation
         
         # for the baseline
-        if self.condition is "baseline":
+        if self.condition[0] == 'Baseline':
             # bind the entire baseline
             c = self.cue.bind(t_start = option['start'], t_plateau = option['hold_cue'], t_pause = option['occ_cue'])
             
@@ -71,44 +69,38 @@ class block(): #add base function
             x = np.zeros_like(c)
             m = np.zeros_like(c) + (abs(c) > 0)
             
-            # tag all the series
-
         else:
             # start
             c, x, m = 3*(seg.line(option['start']).generate(),)
-        
-            if self.condition is "high":
-                n = option['high_range'] # between 4 or 6 perturbation between each cue
-                tag = 3
             
-            elif self.condition is "low":
+            # event tag 
+            tag = 0
+            
+            # number of perturbation
+            if self.condition[0] == "High":
+                n = option['high_range'] # between 4 or 6 perturbation between each cue
+            
+            elif self.condition[0] == "Low":
                 n = option['low_range'] # between 10 and 12 perturbation between each cue
-                
-                #tag all the sides
-                if self.side is "right":
-                    tag = 4
-                
-                elif self.side is "left":
-                    tag = 5
-                    
+                 
             # for every level in cue
             for l in self.cue.level:
-#                # offset
-#                if self.condition is "high":
-#                    offset = tool.rand_sign()*option['offset_perturbation']
-#                
-#                elif self.side is "left":
-#                    offset = -option['offset_perturbation']
-#                
-#                elif self.side is "right":
-#                    offset = option["offset_perturbation"]
-#                    
-                  
-                # perturbation offset 
-                offset = tool.rand_sign()*option['offset_perturbation']
                 
-                # perturbation assembly
-                p = self.perturbation.bind(n = n, offset = offset, t_plateau = option['hold_perturbation'], t_pause = option['occ_perturbation'])
+                #OFFSET
+                # random
+                if self.condition[1] == 'Random':
+                    offset = tool.rand_sign()*option['offset_perturbation']
+                
+                # clokwise
+                elif self.condition[1] == 'CW':
+                    offset = option['offset_perturbation']
+                
+                # counter-clockwise
+                elif self.condition[1] == 'CCW':
+                    offset = -option['offset_perturbation']
+                
+                # PERTURBATION assembly
+                p = self.perturbation.bind(n = n, offset = offset, t_plateau = option['hold_perturbation'], t_pause = option['occ_perturbation'], t_end = option['beta_window'])
                 
                 # append
                 c = np.append(c, np.zeros_like(p))
@@ -129,23 +121,37 @@ class block(): #add base function
         
         return np.transpose(np.vstack((t, c, x, m)))
     
-    @staticmethod    
-    def plot(trajectory):
-        # create necessary amount of subplots
-        fig, subaxis = plt.subplots(len(trajectory), sharey = True)
-        
-        for traj, ax in zip(trajectory, subaxis):
-            ax.plot(traj[:,0], traj[:,1:3])
-
-        ax.set(xlabel = 'time(s)') 
-        return fig
+def plot(trajectory):
+    # create necessary amount of subplots
+    fig, subaxis = plt.subplots(len(trajectory), sharey = True)
     
+    for k, (x, ax) in enumerate(zip(trajectory, subaxis)):
+        ax.plot(x[:,0], x[:,1:3])
+        ax.set_ylabel('Block ' + str(k))
+
+    ax.set(xlabel = 'time(s)') 
+    return fig
+
+
+def get_all_block(option, n = 2):    
+    # List all blocks
+    list_block = [block(n, option, ('Baseline', None)), # 0 - baseline
+                  block(n, option, ('High', 'Random')),   # 1 - high with random
+                  block(n, option, ('High', 'CW')),     # 2 - high on clockwise
+                  block(n, option, ('High', 'CCW')),    # 3 - high on counterclockwise
+                  block(n, option, ('Low', 'Random')), # 4 - low rand
+                  block(n, option, ('Low', 'CW')),   # 5 - low on clockwise
+                  block(n, option, ('Low', 'CCW'))]  # 6 - low on counter clockwise
+    
+    return list_block  
+
 def get_default_option():
     # empty dictionary
     option = {}
     
     # block design
     option['start'] = 5
+    option['handle'] = 'right'
     
     # cue
     option['cue'] = 4
@@ -156,6 +162,7 @@ def get_default_option():
      
     # perturbation
     option['occ_perturbation'] = [0.5, 1]
+    option['beta_window'] = 2.5
     option['hold_perturbation'] = 0.5
     option['high_range'] = [3,5]
     option['low_range'] = [4,6]
@@ -166,15 +173,14 @@ def get_default_option():
 
 if __name__ == "__main__":
     
+    # left option 
     option = get_default_option()
+    list_block = get_all_block(option)
+    x = []
     
-#    plt.figure()
-#    b = block(option, "high", n_cue = 1)
-#    x = b.assemble(option)
-#    plt.plot(x[:,0], x[:,1], x[:,0], x[:,2])
-#    #plt.plot(x[:,0],x[:,-1])
-#    
-    plt.figure()
-    b = block(option, "low", n_cue = 1, side = 'left')
-    x = b.assemble(option)
-    plt.plot(x[:,0], x[:,1], x[:,0], x[:,2])
+    for k, b in enumerate(list_block):
+        print(k)
+        x += [b.assemble(option)]
+    
+    plot(x)
+    

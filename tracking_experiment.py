@@ -141,7 +141,7 @@ class main_window(QMainWindow):
         chirp = trace.ramp(level = option['chirp_frequency'], randomise = False, n_instance = 1)
         f = chirp.bind(t_start = option['chirp_start'], t_transition = option['chirp_ramp'], t_plateau = option['chirp_plateau'])
         x = tool.frequency_trajectory_to_chirp(f, A = option['chirp_amplitude'])
-        x = np.tile(x, 2)
+        x = np.tile(x, 3)
         tool.plot_trajectory(x)
         plt.show()
 
@@ -149,6 +149,9 @@ class main_window(QMainWindow):
         
     @pyqtSlot()
     def generate(self):
+        # trajectory
+        self.trajectory = []
+        
         #created an option dictionary option
         option = self.get_option()        
        
@@ -162,15 +165,17 @@ class main_window(QMainWindow):
         t = tool.measure_time(x)
         self.Ramp_Display.display(tool.convert_sec(t, string = True))
         
-        
         #CHIRP
         chirp = trace.ramp(level = option['chirp_frequency'], randomise = False, n_instance = 1)
         f = chirp.bind(t_start = option['chirp_start'], t_transition = option['chirp_ramp'], t_plateau = option['chirp_plateau'])
         f = np.append(f, segment.line(option['chirp_start']).generate())
         x = tool.frequency_trajectory_to_chirp(f, A = option['chirp_amplitude'])
+        print(len(x))
         x = np.tile(x, option['chirp_repetition'])
+        print(len(x))
         
-        event = (f[1:] > 0)
+        f = np.tile(f, option['chirp_repetition'])
+        event = (f[option['chirp_repetition']:] > 0)
         self.trajectory += [np.transpose(np.vstack((x, event)))]
         t = tool.measure_time(x)
         self.Chirp_Display.display(tool.convert_sec(t, string = True))
