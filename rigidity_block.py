@@ -67,14 +67,14 @@ class block(): #add base function
             
             # append
             x = np.zeros_like(c)
-            m = np.zeros_like(c) + (abs(c) > 0)
+            m = np.zeros_like(c)
             
         else:
             # start
             c, x, m = 3*(seg.line(option['start']).generate(),)
             
             # event tag 
-            tag = 0
+            tag = self.condition[3]
             
             # number of perturbation
             if self.condition[0] == "High":
@@ -113,7 +113,7 @@ class block(): #add base function
                 # append
                 c = np.append(c, q)
                 x = np.append(x, x[-1]*np.ones_like(q)*(abs(q) > 0))
-                m = np.append(m, np.zeros_like(q) + (abs(q) > 0))
+                m = np.append(m, np.zeros_like(q))
                 
         # get time vector
         t = tool.get_time(c)
@@ -125,9 +125,9 @@ def plot(trajectory):
     # create necessary amount of subplots
     fig, subaxis = plt.subplots(len(trajectory), sharey = True)
     
-    for k, (x, ax) in enumerate(zip(trajectory, subaxis)):
+    for x, ax in zip(trajectory, subaxis):
         ax.plot(x[:,0], x[:,1:3])
-        ax.set_ylabel('Block ' + str(k))
+        ax.set_ylabel('Block ' + str(max(x[:,3])))
 
     ax.set(xlabel = 'time(s)') 
     return fig

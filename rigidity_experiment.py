@@ -1,7 +1,7 @@
 # Qt GUI tools
 import sys
 import os 
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
 from PyQt5.uic import loadUi
 
@@ -46,12 +46,14 @@ class main_window(QMainWindow):
                 if self.trajectory is None: self.generate() 
                     
                 # add the config file
-                name = target + "//Config" + ".csv"
+                name = target + "//Config.csv"
+                print(name)
                 tool.write_to_csv(name, self.option)
                 
                 # add a table file
-                
-                
+                name = target + "//Table.csv"
+                print(name)
+                tool.write_to_csv(name, self.table, ["Perturbation Type", "Offset Type", "Condition"])
                 
                 # write the trajectories
                 for k, X in enumerate(self.trajectory):
@@ -71,22 +73,45 @@ class main_window(QMainWindow):
     def load(self):
         # load a config file
         try:
-            target, _ = QFileDialog.getOpenFileName(self)
+            target = QFileDialog.getExistingDirectory(self, "Select Trajectory Directory")
             print(target)
             
         except:
             target = ''
             
         if target is not '':
-            # get the option
-            option = tool.clean_csv_dict(tool.read_to_csv(target))
+            try:
+                # get the option
+                name = target + "/Config.csv"
+                print(name)
+                
+                # OPTION 
+                option = tool.read_csv(name)
+                option = tool.clean_csv_dict(option)
+                
+                # CONDITION
+                name = target + "/Table.csv"
+                print(name)
+                condition = tool.read_csv(name, output = list)
+                print("[SUCCESS] all file read")
             
+            except:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Warning)
+                msg.setText('Invalid Trajectory Directory')
+                msg.setWindowTitle("Error")
+                msg.exec_()
+                return Nones
+    
+            # SET OPTION
             # block design
             self.start_time.setValue(option['start'])
             self.shuffle_block.setChecked(option['randomise'])
             
-            if option['handle'] is 'left':
-                self.handle.setChecked(option['handle'])
+            if option['handle'] == 'left':
+                self.handle.setChecked(True)
+            else:
+                self.handle.setChecked(False)
             
             # cue
             self.number_cue.setValue(2*option['cue'])
@@ -110,6 +135,15 @@ class main_window(QMainWindow):
             
             print("[SUCCESS] all option loaded")
             
+            # SET CONDITION
+            for c in condition[1:]:
+                k = str(c[3])
+                eval("self.block_" + str(k) + ".setChecked("+ c[2] + ")")
+                index = eval("self.type_" + str(k) + ".findText(c[0], Qt.MatchFixedString)")
+                eval("self.type_" + str(k) + ".setCurrentIndex(index)")
+                index = eval("self.offset_" + str(k) + ".findText(c[1], Qt.MatchFixedString)")
+                eval("self.offset_" + str(k) + ".setCurrentIndex(index)")
+               
     
     def get_condition(self):
         # block
@@ -117,11 +151,12 @@ class main_window(QMainWindow):
                      
         # do list comprehension literraly
         for k in range(0, 7):
-            k = str(k)
             # if the block is checked
-            if eval("self.block_" + k + ".isChecked()"):                    
-                condition += [(eval("self.type_" + k + ".currentText()"), eval("self.offset_" + k  + ".currentText()"))]
-
+            if eval("self.block_" + str(k) + ".isChecked()"):                    
+                condition += [(eval("self.type_" + str(k) + ".currentText()"), 
+                               eval("self.offset_" + str(k)  + ".currentText()"),  
+                               eval("self.block_" + str(k) +  ".isChecked()"), 
+                                    k)]
         return condition
         
     
@@ -217,8 +252,8 @@ class main_window(QMainWindow):
         
         print('saving options and condition')
         self.option = option
-        self.table = None
-        
+        self.table = [list(c) for c in condition]
+        print(self.table)
         
 if __name__ == "__main__":
   

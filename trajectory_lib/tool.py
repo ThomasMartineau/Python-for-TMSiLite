@@ -90,15 +90,17 @@ def write_to_csv(name, X, header = None, append = False):
 
     
          
-def read_to_csv(name, output = dict):
+def read_csv(name, output = dict):
     with open(name) as target:
         # get reading function
         rows = csv.reader(target, delimiter = ',')
         
         # in the form of a dictionary
+        if output is list:
+            return [r for r in rows]
         if output is dict:
             return {r[0]: r[1:] for r in rows}
-
+        
 def clean_csv_dict(X):
     # for every values
     for key, value in zip(X.keys(), X.values()):
@@ -106,11 +108,13 @@ def clean_csv_dict(X):
         if len(value) == 1:
             v = value[0]
             if v == 'False' or v == 'True': X[key] = bool(v)
+            elif v == 'right' or v == 'left': pass # keyword exception  
             else: X[key] = float(value[0]) 
         
         else: X[key] = [float(v) for v in value]
         
     return X
+
 
 # operation on trajectory      
 def frequency_trajectory_to_chirp(f, fs = fs_default, A = 1):
