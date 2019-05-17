@@ -37,15 +37,16 @@ class block(): #add base function
         # Perturbation 
         T = option['max_torque']
     
-        if condition[1] == 'Random':
+        # direction of the perturbation
+        if condition[3] == 'Random':
             # define high perturbation section  
             self.perturbation = trace.rand_step(boundary = [-T, T])
         
-        elif condition[1] == 'CW':
+        elif condition[3] == 'CW':
             # clock-wise perturnation 
             self.perturbation = trace.rand_step(boundary = [0, T])
         
-        elif condition[1] == 'CCW':
+        elif condition[3] == 'CCW':
             # counter-clock wise perturbation
             self.perturbation = trace.rand_step(boundary = [-T, 0])
             
@@ -59,10 +60,10 @@ class block(): #add base function
         # occ_perturbation: time or time interval between perturbation
         
         # for the baseline
-        if self.condition[0] == 'Baseline':
+        if self.condition[2] == 'Baseline':
             # bind the entire baseline
             c = self.cue.bind(t_start = option['start'], t_plateau = option['hold_cue'], t_pause = option['occ_cue'])
-            
+                        
             # append
             x = np.zeros_like(c)
             m = np.zeros_like(c)
@@ -72,30 +73,32 @@ class block(): #add base function
             c, x, m = 3*(seg.line(option['start']).generate(),)
             
             # event tag 
-            tag = self.condition[3]
+            tag = self.condition[0]
             
             # number of perturbation
-            if self.condition[0] == "High":
+            if self.condition[2] == "High":
                 n = option['high_range'] # between 4 or 6 perturbation between each cue
             
-            elif self.condition[0] == "Low":
+            elif self.condition[2] == "Low":
                 n = option['low_range'] # between 10 and 12 perturbation between each cue
                  
             # for every level in cue
             for l in self.cue.level:    
                 #OFFSET
                 # random
-                offset = tool.rand_sign()*option['offset_perturbation']
+                #offset = tool.rand_sign()*option['offset_perturbation']
                 
-#                if self.condition[1] == 'Random':
-#                    offset = tool.rand_sign()*option['offset_perturbation']     
-#                # clokwise
-#                elif self.condition[1] == 'CW':
-#                    offset = option['offset_perturbation']
-#                
-#                # counter-clockwise
-#                elif self.condition[1] == 'CCW':
-#                    offset = -option['offset_perturbation']
+                if self.condition[4] == 'Random':
+                    offset = tool.rand_sign()*option['offset_perturbation']     
+                # clokwise
+                elif self.condition[4] == 'CW':
+                    offset = option['offset_perturbation']
+                # counter-clockwise
+                elif self.condition[4] == 'CCW':
+                    offset = -option['offset_perturbation']    
+                #None
+                elif self.condition[4] == 'None':
+                    offset = 0
                 
                 # PERTURBATION assembly
                 p = self.perturbation.bind(n = n, offset = offset, t_plateau = option['hold_perturbation'], t_pause = option['occ_perturbation'], t_end = option['beta_window'])

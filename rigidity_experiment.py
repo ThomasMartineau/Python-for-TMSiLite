@@ -53,7 +53,7 @@ class main_window(QMainWindow):
                 # add a table file
                 name = target + "//Table.csv"
                 print(name)
-                tool.write_to_csv(name, self.table, ["Perturbation Type", "Offset Type", "Condition"])
+                tool.write_to_csv(name, self.table, ["Block", "Checked", "Perturbation Number", "Perturbation Direction", "Offset Direction"])
                 
                 # write the trajectories
                 for k, X in enumerate(self.trajectory):
@@ -132,26 +132,37 @@ class main_window(QMainWindow):
             
             # SET CONDITION
             for c in condition[1:]:
-                k = str(c[3])
-                eval("self.block_" + str(k) + ".setChecked("+ c[2] + ")")
-                index = eval("self.type_" + str(k) + ".findText(c[0], Qt.MatchFixedString)")
+                # retrive the line 
+                k = str(c[0])
+                
+                # if the block is checked
+                eval("self.block_" + str(k) + ".setChecked("+ c[1] + ")")
+                
+                # direction of the perturbation
+                index = eval("self.type_" + str(k) + ".findText(c[2], Qt.MatchFixedString)")
                 eval("self.type_" + str(k) + ".setCurrentIndex(index)")
-                index = eval("self.offset_" + str(k) + ".findText(c[1], Qt.MatchFixedString)")
+                
+                # direction of the current
+                index = eval("self.per_" + str(k) + ".findText(c[3], Qt.MatchFixedString)")
+                eval("self.per_" + str(k) + ".setCurrentIndex(index)")
+                
+                # direction of the offset 
+                index = eval("self.offset_" + str(k) + ".findText(c[4], Qt.MatchFixedString)")
                 eval("self.offset_" + str(k) + ".setCurrentIndex(index)")
-               
-    
+                
+                       
     def get_condition(self):
         # block
         condition = []
                      
         # do list comprehension literraly
         for k in range(0, 7):
-            # if the block is checked
-            if eval("self.block_" + str(k) + ".isChecked()"):                    
-                condition += [(eval("self.type_" + str(k) + ".currentText()"), 
-                               eval("self.offset_" + str(k)  + ".currentText()"),  
-                               eval("self.block_" + str(k) +  ".isChecked()"), 
-                                    k)]
+            # if the block is checked                 
+            condition += [(k, #0
+                           eval("self.block_" + str(k) +  ".isChecked()"), #1
+                           eval("self.type_" + str(k) + ".currentText()"), #2
+                           eval("self.per_" + str(k) + ".currentText()"),  #3
+                           eval("self.offset_" + str(k)  + ".currentText()"))] #4
         return condition
         
     
@@ -194,7 +205,7 @@ class main_window(QMainWindow):
         print('generating preview trajectory')
         option = self.get_option()
         condition = self.get_condition()
-        list_block = [experiment.block(2, option, c) for c in condition]
+        list_block = [experiment.block(2, option, c) for c in condition if c[1]] #if it is checked
         trajectory = [b.assemble(option) for b in list_block]
         print('[SUCCESS] all preview trajectory generated')
 
@@ -212,7 +223,7 @@ class main_window(QMainWindow):
         n = option['cue']
         
         #creat a block list
-        list_block = [experiment.block(n, option, c) for c in condition]
+        list_block = [experiment.block(n, option, c) for c in condition if c[1]] #if it is checked
                 
         # manipulate the lsit
         b0 = list_block[0]
