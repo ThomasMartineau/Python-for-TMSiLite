@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>721</height>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -366,7 +366,7 @@
        <item row="1" column="1">
         <widget class="QSpinBox" name="repetition">
          <property name="minimum">
-          <number>1</number>
+          <number>3</number>
          </property>
         </widget>
        </item>
@@ -374,26 +374,6 @@
         <widget class="QCheckBox" name="shuffle_block">
          <property name="text">
           <string>Random Order</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QRadioButton" name="handle">
-         <property name="text">
-          <string>LEFT</string>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QRadioButton" name="radioButton_2">
-         <property name="text">
-          <string>RIGHT</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -436,6 +416,13 @@
            <string>Low</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Perturbation</string>
+         </property>
         </widget>
        </item>
        <item row="1" column="1">
@@ -491,6 +478,13 @@
          </item>
         </widget>
        </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Perturbation</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="1">
         <widget class="QComboBox" name="offset_1">
          <item>
@@ -542,6 +536,13 @@
            <string>Low</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Perturbation</string>
+         </property>
         </widget>
        </item>
        <item row="5" column="1">
@@ -597,6 +598,13 @@
          </item>
         </widget>
        </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Perturbation</string>
+         </property>
+        </widget>
+       </item>
        <item row="7" column="1">
         <widget class="QComboBox" name="offset_3">
          <item>
@@ -648,6 +656,13 @@
            <string>Baseline</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Perturbation</string>
+         </property>
         </widget>
        </item>
        <item row="9" column="1">
@@ -703,6 +718,13 @@
          </item>
         </widget>
        </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="label_23">
+         <property name="text">
+          <string>Perturbation</string>
+         </property>
+        </widget>
+       </item>
        <item row="11" column="1">
         <widget class="QComboBox" name="offset_5">
          <item>
@@ -754,6 +776,13 @@
            <string>Baseline</string>
           </property>
          </item>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLabel" name="label_24">
+         <property name="text">
+          <string>Perturbation</string>
+         </property>
         </widget>
        </item>
        <item row="13" column="1">

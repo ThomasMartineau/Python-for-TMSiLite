@@ -108,11 +108,6 @@ class main_window(QMainWindow):
             self.start_time.setValue(option['start'])
             self.shuffle_block.setChecked(option['randomise'])
             
-            if option['handle'] == 'left':
-                self.handle.setChecked(True)
-            else:
-                self.handle.setChecked(False)
-            
             # cue
             self.number_cue.setValue(2*option['cue'])
             self.cue_holding_time.setValue(option['hold_cue'])
@@ -169,13 +164,7 @@ class main_window(QMainWindow):
         option['start'] = self.start_time.value()
         option['repetition'] = self.repetition.value()
         option['randomise'] = self.shuffle_block.isChecked()
-        
-        # Hi5 handle setup
-        if self.handle.isChecked():
-            option['handle'] = 'left'
-        else:
-            option['handle'] = 'right'
-        
+                
         # Cue
         option['cue'] = self.number_cue.value()//2
         option['hold_cue'] = self.cue_holding_time.value()

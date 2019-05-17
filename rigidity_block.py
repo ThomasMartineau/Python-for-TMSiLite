@@ -37,20 +37,18 @@ class block(): #add base function
         # Perturbation 
         T = option['max_torque']
     
-        if condition[0] == 'High':
+        if condition[1] == 'Random':
             # define high perturbation section  
             self.perturbation = trace.rand_step(boundary = [-T, T])
+        
+        elif condition[1] == 'CW':
+            # clock-wise perturnation 
+            self.perturbation = trace.rand_step(boundary = [0, T])
+        
+        elif condition[1] == 'CCW':
+            # counter-clock wise perturbation
+            self.perturbation = trace.rand_step(boundary = [-T, 0])
             
-        elif condition[0] == 'Low':
-            # define low perturbation section 
-            if option['handle'] == 'right':
-                # boundary -- right 1
-                self.perturbation = trace.rand_step(boundary = [0, T])
-                
-            elif option['handle'] == 'left':
-                # boundary -- left -1 
-                self.perturbation = trace.rand_step(boundary = [-T, 0])
-                
         # Meta-information
         self.time = None
                 
@@ -84,20 +82,20 @@ class block(): #add base function
                 n = option['low_range'] # between 10 and 12 perturbation between each cue
                  
             # for every level in cue
-            for l in self.cue.level:
-                
+            for l in self.cue.level:    
                 #OFFSET
                 # random
-                if self.condition[1] == 'Random':
-                    offset = tool.rand_sign()*option['offset_perturbation']
+                offset = tool.rand_sign()*option['offset_perturbation']
                 
-                # clokwise
-                elif self.condition[1] == 'CW':
-                    offset = option['offset_perturbation']
-                
-                # counter-clockwise
-                elif self.condition[1] == 'CCW':
-                    offset = -option['offset_perturbation']
+#                if self.condition[1] == 'Random':
+#                    offset = tool.rand_sign()*option['offset_perturbation']     
+#                # clokwise
+#                elif self.condition[1] == 'CW':
+#                    offset = option['offset_perturbation']
+#                
+#                # counter-clockwise
+#                elif self.condition[1] == 'CCW':
+#                    offset = -option['offset_perturbation']
                 
                 # PERTURBATION assembly
                 p = self.perturbation.bind(n = n, offset = offset, t_plateau = option['hold_perturbation'], t_pause = option['occ_perturbation'], t_end = option['beta_window'])
