@@ -101,14 +101,16 @@ class main_window(QMainWindow):
                 msg.setText('Invalid Trajectory Directory')
                 msg.setWindowTitle("Error")
                 msg.exec_()
-                return Nones
+                return None
     
             # SET OPTION
             # block design
-            self.start_time.setValue(option['start'])
+            self.repetition.setValue(option['repetition'])
             self.shuffle_block.setChecked(option['randomise'])
             
             # cue
+            self.start_time.setValue(option['start'])
+            self.end_time.setValue(option['end'])
             self.number_cue.setValue(2*option['cue'])
             self.cue_holding_time.setValue(option['hold_cue'])
             self.cue_return_time.setValue(option['after_cue'])
@@ -172,11 +174,13 @@ class main_window(QMainWindow):
         option = {}
         
         # Block design
-        option['start'] = self.start_time.value()
+
         option['repetition'] = self.repetition.value()
         option['randomise'] = self.shuffle_block.isChecked()
                 
         # Cue
+        option['start'] = self.start_time.value()
+        option['end'] = self.end_time.value()
         option['cue'] = self.number_cue.value()//2
         option['hold_cue'] = self.cue_holding_time.value()
         option['after_cue'] = self.cue_return_time.value()

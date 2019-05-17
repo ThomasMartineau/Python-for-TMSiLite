@@ -62,7 +62,7 @@ class block(): #add base function
         # for the baseline
         if self.condition[2] == 'Baseline':
             # bind the entire baseline
-            c = self.cue.bind(t_start = option['start'], t_plateau = option['hold_cue'], t_pause = option['occ_cue'])
+            c = self.cue.bind(t_start = option['start'], t_plateau = option['hold_cue'], t_pause = option['occ_cue'], t_end = option['end'])
                         
             # append
             x = np.zeros_like(c)
@@ -116,6 +116,12 @@ class block(): #add base function
                 x = np.append(x, x[-1]*np.ones_like(q)*(abs(q) > 0))
                 m = np.append(m, np.zeros_like(q))
                 
+        # endtime
+        q = seg.line(option['end']).generate()
+        c = np.append(c, q)
+        x = np.append(x, q)
+        m = np.append(m, q)
+        
         # get time vector
         t = tool.get_time(c)
         self.time = tool.measure_time(c)    
