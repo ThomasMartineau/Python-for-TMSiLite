@@ -102,6 +102,9 @@
        </item>
        <item row="7" column="1" colspan="2">
         <widget class="QDoubleSpinBox" name="Ramp_Plateau_Time">
+         <property name="suffix">
+          <string>s</string>
+         </property>
          <property name="minimum">
           <double>0.250000000000000</double>
          </property>
@@ -112,27 +115,33 @@
           <double>0.050000000000000</double>
          </property>
          <property name="value">
-          <double>2.500000000000000</double>
+          <double>5.000000000000000</double>
          </property>
         </widget>
        </item>
        <item row="6" column="1">
         <widget class="QDoubleSpinBox" name="Ramp_Min_Pause_Time">
-         <property name="singleStep">
-          <double>0.250000000000000</double>
+         <property name="suffix">
+          <string>s</string>
          </property>
-         <property name="value">
-          <double>2.500000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="2">
-        <widget class="QDoubleSpinBox" name="Ramp_Max_Pause_Time">
          <property name="singleStep">
           <double>0.250000000000000</double>
          </property>
          <property name="value">
           <double>5.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QDoubleSpinBox" name="Ramp_Max_Pause_Time">
+         <property name="suffix">
+          <string>s</string>
+         </property>
+         <property name="singleStep">
+          <double>0.250000000000000</double>
+         </property>
+         <property name="value">
+          <double>7.500000000000000</double>
          </property>
         </widget>
        </item>
@@ -143,6 +152,9 @@
          </property>
          <property name="value">
           <number>5</number>
+         </property>
+         <property name="displayIntegerBase">
+          <number>10</number>
          </property>
         </widget>
        </item>
@@ -166,7 +178,7 @@
        <item row="0" column="1" colspan="2">
         <widget class="QLineEdit" name="Ramp_Slope">
          <property name="text">
-          <string>[0.1, 0.25, 0.5]</string>
+          <string>[ 0.25, 0.5, 0.75, 1]</string>
          </property>
         </widget>
        </item>
@@ -208,6 +220,9 @@
        </item>
        <item row="5" column="2" colspan="2">
         <widget class="QDoubleSpinBox" name="Chirp_Start_Time">
+         <property name="suffix">
+          <string>s</string>
+         </property>
          <property name="minimum">
           <double>2.500000000000000</double>
          </property>
@@ -267,12 +282,15 @@
        <item row="10" column="2" colspan="2">
         <widget class="QSpinBox" name="Chirp_Repetition">
          <property name="value">
-          <number>5</number>
+          <number>10</number>
          </property>
         </widget>
        </item>
        <item row="6" column="2" colspan="2">
         <widget class="QDoubleSpinBox" name="Chirp_Ramp_Time">
+         <property name="suffix">
+          <string>s</string>
+         </property>
          <property name="minimum">
           <double>10.000000000000000</double>
          </property>
@@ -283,12 +301,15 @@
           <double>10.000000000000000</double>
          </property>
          <property name="value">
-          <double>60.000000000000000</double>
+          <double>30.000000000000000</double>
          </property>
         </widget>
        </item>
        <item row="7" column="2" colspan="2">
         <widget class="QDoubleSpinBox" name="Chirp_Plateau_Time">
+         <property name="suffix">
+          <string>s</string>
+         </property>
          <property name="minimum">
           <double>2.500000000000000</double>
          </property>
@@ -305,6 +326,9 @@
        </item>
        <item row="1" column="2" colspan="2">
         <widget class="QDoubleSpinBox" name="Max_Frequency">
+         <property name="suffix">
+          <string>Hz</string>
+         </property>
          <property name="minimum">
           <double>0.000000000000000</double>
          </property>
@@ -312,7 +336,7 @@
           <double>0.050000000000000</double>
          </property>
          <property name="value">
-          <double>1.000000000000000</double>
+          <double>0.500000000000000</double>
          </property>
         </widget>
        </item>

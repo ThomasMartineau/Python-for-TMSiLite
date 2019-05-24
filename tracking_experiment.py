@@ -52,11 +52,12 @@ class main_window(QMainWindow):
                 name = target + "//Table.csv"
                 tool.write_to_csv(name, self.table, header = ["Event", "Slope", "Level"])
                 
+                
+                name_list = ["//1_ramps.csv", "//3_ramps.csv", "//2_chirp.csv", "//4_chirp.csv"]
                 # write the trajectories
-                for k, X in enumerate(self.trajectory):
-                    name = target + "//Block_" + str(k) + ".csv"
+                for k, (X, name) in enumerate(zip(self.trajectory, name_list)):
                     print(name)
-                    tool.write_to_csv(name, X, header = ["cue", "event"])
+                    tool.write_to_csv(target + name, X, header = ["cue", "event"])
                 
                 print("[SUCCESS] all file saved")
             else:
@@ -160,9 +161,12 @@ class main_window(QMainWindow):
         #RAMP
         ramp = trace.trapezium(option['ramp_slope'], option['ramp_level'], randomise = option['ramp_randomise'], n_instance = option['ramp_repetition'])
         self.table = ramp.table
-        x, event = ramp.bind(t_pause = option['ramp_pause'], t_plateau = option['ramp_plateau'])
-        self.trajectory += [np.transpose(np.vstack((x, event)))]
-        t = tool.measure_time(x)
+        for k in range(0, 2):
+            x, event = ramp.bind(t_pause = option['ramp_pause'], t_plateau = option['ramp_plateau'])
+            self.trajectory += [np.transpose(np.vstack((x, event)))]
+            t = tool.measure_time(x)
+        
+        # display on the LCD 
         self.Ramp_Display.display(tool.convert_sec(t, string = True))
         
         #CHIRP
@@ -176,8 +180,10 @@ class main_window(QMainWindow):
         
         f = np.tile(f, option['chirp_repetition'])
         event = (f[option['chirp_repetition']:] > 0)
-        self.trajectory += [np.transpose(np.vstack((x, event)))]
+        self.trajectory += [np.transpose(np.vstack((x, event)))]*2
         t = tool.measure_time(x)
+        
+        # display on the LCD
         self.Chirp_Display.display(tool.convert_sec(t, string = True))
               
         print('[SUCCESS] all trajectory generated')
