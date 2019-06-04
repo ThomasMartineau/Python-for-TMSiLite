@@ -72,17 +72,10 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="0" colspan="4">
+       <item row="14" column="0" colspan="4">
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Pause Time</string>
          </property>
         </widget>
        </item>
@@ -90,13 +83,6 @@
         <widget class="QLabel" name="label_8">
          <property name="text">
           <string>Slope</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string/>
          </property>
         </widget>
        </item>
@@ -132,6 +118,34 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Pause Time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Repetition</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLineEdit" name="Ramp_Slope">
+         <property name="text">
+          <string>[ 0.25, 0.5, 0.75, 1]</string>
+         </property>
+        </widget>
+       </item>
        <item row="6" column="2">
         <widget class="QDoubleSpinBox" name="Ramp_Max_Pause_Time">
          <property name="suffix">
@@ -142,6 +156,16 @@
          </property>
          <property name="value">
           <double>7.500000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QRadioButton" name="Ramp_Order">
+         <property name="text">
+          <string>Random Order</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -158,34 +182,44 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_20">
-         <property name="text">
-          <string>Repetition</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="2">
-        <widget class="QRadioButton" name="Ramp_Order">
-         <property name="text">
-          <string>Random Order</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="2">
-        <widget class="QLineEdit" name="Ramp_Slope">
-         <property name="text">
-          <string>[ 0.25, 0.5, 0.75, 1]</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="1" colspan="2">
         <widget class="QLineEdit" name="Ramp_Level">
          <property name="text">
           <string>[0.5, 1]</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1" colspan="2">
+        <widget class="QDoubleSpinBox" name="Start">
+         <property name="minimum">
+          <double>5.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>15.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>START</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>STOP</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1" colspan="2">
+        <widget class="QDoubleSpinBox" name="Stop">
+         <property name="minimum">
+          <double>5.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>15.000000000000000</double>
          </property>
         </widget>
        </item>

@@ -146,7 +146,7 @@ class trapezium():
         self.parameter = p
               
     #time to start, time to pause (number or random interval)
-    def bind(self, t_start = 5, t_pause = 5, t_plateau = 5, fs = fs_default):
+    def bind(self, t_start = 5, t_pause = 5, t_plateau = 5, t_end = 5, fs = fs_default):
         #initial start
         x = seg.line(duration = t_start).generate(fs = fs)
         y = np.zeros_like(x); 
@@ -164,6 +164,11 @@ class trapezium():
             y = np.append(y, np.ones_like(trapz)*p[0])
             x = np.append(x, pause)
             y = np.append(y, np.zeros_like(pause))            
+        
+        # end segment
+        end = seg.line(duration = t_end).generate(fs = fs)
+        x = np.append(x, end)
+        y = np.append(y, np.zeros_like(end))
         
         return x, y
 
