@@ -231,17 +231,17 @@ class main_window(QMainWindow):
                 
         # manipulate the lsit
         b0 = list_block[0]
-        list_block = list_block[1:]
         
         # manipulate
         list_block *= option['repetition']
+        del list_block[0] # delete the first one
         
         # random the option
         if option['randomise']:
             random.shuffle(list_block)
             
         # replace the line on top
-        list_block = [b0] + list_block   
+        list_block = [b0] + list_block # replace the first 
                            
         # assemble all blocks -> all random instances of the block wahts        
         print('generating trajectories for each block')
