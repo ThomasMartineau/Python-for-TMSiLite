@@ -35,7 +35,6 @@ class trapezium(line):
         #complete total duration
         T = 2*t_slope + t_plateau
         super(trapezium, self).__init__(T)
-        
         #parameter
         self.segment = (t_slope, t_plateau + t_slope)
         self.level = level
@@ -45,12 +44,10 @@ class trapezium(line):
     def generate(self, offset = 0, fs = fs_default):
         #time vector
         k = np.linspace(0, self.duration, int(self.duration*fs))
-        
         #trapezium segment
         rise = (self.gradient*k)*(k < self.segment[0]) 
         steady = self.level*((self.segment[0] <= k) ^ (k >= self.segment[1]))
         fall = (self.level - self.gradient*(k-self.segment[1]))*(self.segment[1] < k) 
-        
         #superimposition + vertical shift
         return  (rise + steady + fall) + offset
     

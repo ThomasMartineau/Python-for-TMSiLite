@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
-    <height>821</height>
+    <width>344</width>
+    <height>758</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,246 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="0" rowspan="3">
-     <widget class="QGroupBox" name="groupBox_5">
-      <property name="title">
-       <string>Menu</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="preview_button">
-         <property name="text">
-          <string>Preview</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="generate_button">
-         <property name="text">
-          <string>Generate</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="save_button">
-         <property name="text">
-          <string>Save</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="load_button">
-         <property name="text">
-          <string>Load</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="3" column="2" rowspan="3">
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="title">
-       <string>Output </string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_16">
-         <property name="text">
-          <string>TOTAL SESSION TIME</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLCDNumber" name="Total_time">
-         <property name="digitCount">
-          <number>8</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLCDNumber" name="Average_time">
-         <property name="digitCount">
-          <number>8</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_19">
-         <property name="text">
-          <string>AVERAGE BLOCK TIME</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QGroupBox" name="groupBox_2">
-      <property name="title">
-       <string>Cue</string>
-      </property>
-      <layout class="QFormLayout" name="formLayout_3">
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Number of Cue </string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QSpinBox" name="number_cue">
-         <property name="minimum">
-          <number>2</number>
-         </property>
-         <property name="maximum">
-          <number>100</number>
-         </property>
-         <property name="singleStep">
-          <number>2</number>
-         </property>
-         <property name="value">
-          <number>8</number>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Holding Time</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="cue_holding_time">
-         <property name="decimals">
-          <number>2</number>
-         </property>
-         <property name="singleStep">
-          <double>0.250000000000000</double>
-         </property>
-         <property name="value">
-          <double>1.500000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Rerturn Time</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QDoubleSpinBox" name="cue_return_time">
-         <property name="singleStep">
-          <double>0.250000000000000</double>
-         </property>
-         <property name="value">
-          <double>2.500000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Baseline Time</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QDoubleSpinBox" name="cue_min_time">
-         <property name="singleStep">
-          <double>0.250000000000000</double>
-         </property>
-         <property name="value">
-          <double>3.500000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QDoubleSpinBox" name="cue_max_time">
-         <property name="singleStep">
-          <double>0.250000000000000</double>
-         </property>
-         <property name="value">
-          <double>5.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_20">
-         <property name="text">
-          <string>Max Amplitude</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QDoubleSpinBox" name="max_amplitude">
-         <property name="maximum">
-          <double>1.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.050000000000000</double>
-         </property>
-         <property name="value">
-          <double>1.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_22">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="start_time">
-         <property name="decimals">
-          <number>1</number>
-         </property>
-         <property name="singleStep">
-          <double>0.500000000000000</double>
-         </property>
-         <property name="value">
-          <double>5.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Start Time</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_32">
-         <property name="text">
-          <string>End Time</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="end_time">
-         <property name="singleStep">
-          <double>0.500000000000000</double>
-         </property>
-         <property name="value">
-          <double>10.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="1" column="2">
      <widget class="QGroupBox" name="groupBox_3">
       <property name="title">
@@ -325,56 +85,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>High Perturbation</string>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="1">
-        <widget class="QSpinBox" name="high_perturbation_min_number">
-         <property name="value">
-          <number>6</number>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QSpinBox" name="high_perturbation_max_number">
-         <property name="value">
-          <number>8</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>Low Perturbation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QSpinBox" name="low_perturbation_min_number">
-         <property name="value">
-          <number>2</number>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QSpinBox" name="low_perturbation_max_number">
-         <property name="value">
-          <number>4</number>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>Max Torque</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
         <widget class="QDoubleSpinBox" name="torque">
          <property name="maximum">
           <double>1.000000000000000</double>
@@ -387,612 +98,102 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_21">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_17">
          <property name="text">
-          <string>Offset</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <widget class="QDoubleSpinBox" name="offset">
-         <property name="maximum">
-          <double>1.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.050000000000000</double>
-         </property>
-         <property name="value">
-          <double>0.250000000000000</double>
+          <string>Max Torque</string>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
     </item>
-    <item row="0" column="0" rowspan="2">
+    <item row="2" column="0">
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="title">
+       <string>Menu</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="preview_button">
+         <property name="text">
+          <string>Preview</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="generate_button">
+         <property name="text">
+          <string>Generate</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="save_button">
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="load_button">
+         <property name="text">
+          <string>Load</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Output </string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>TOTAL SESSION TIME</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLCDNumber" name="Total_time">
+         <property name="digitCount">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLCDNumber" name="Average_time">
+         <property name="digitCount">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>AVERAGE BLOCK TIME</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="3">
      <widget class="QGroupBox" name="groupBox_7">
       <property name="title">
-       <string>Block Design</string>
+       <string>Block</string>
       </property>
       <layout class="QFormLayout" name="formLayout_2">
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="block_0">
-         <property name="text">
-          <string>Block 0</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="type_0">
-         <item>
-          <property name="text">
-           <string>Baseline</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>High</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Low</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Perturbation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="per_0">
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_25">
-         <property name="text">
-          <string>Offset</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="offset_0">
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QCheckBox" name="block_1">
-         <property name="text">
-          <string>Block 1</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QComboBox" name="type_1">
-         <item>
-          <property name="text">
-           <string>High</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Baseline</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Low</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Perturbation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QComboBox" name="per_1">
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QComboBox" name="offset_1">
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QCheckBox" name="block_2">
-         <property name="text">
-          <string>Block 2</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QComboBox" name="type_2">
-         <item>
-          <property name="text">
-           <string>High</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Baseline</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Low</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Perturbation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <widget class="QComboBox" name="per_2">
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="10" column="1">
-        <widget class="QComboBox" name="offset_2">
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QCheckBox" name="block_3">
-         <property name="text">
-          <string>Block 3</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="1">
-        <widget class="QComboBox" name="type_3">
-         <item>
-          <property name="text">
-           <string>High</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Baseline</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Low</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Perturbation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1">
-        <widget class="QComboBox" name="per_3">
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="13" column="1">
-        <widget class="QComboBox" name="offset_3">
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QCheckBox" name="block_4">
-         <property name="text">
-          <string>Block 4</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="1">
-        <widget class="QComboBox" name="type_4">
-         <item>
-          <property name="text">
-           <string>Low</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>High</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Baseline</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="15" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Perturbation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="1">
-        <widget class="QComboBox" name="per_4">
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="16" column="1">
-        <widget class="QComboBox" name="offset_4">
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="17" column="0">
-        <widget class="QCheckBox" name="block_5">
-         <property name="text">
-          <string>Block 5</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="1">
-        <widget class="QComboBox" name="type_5">
-         <item>
-          <property name="text">
-           <string>Low</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>High</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Baseline</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="18" column="0">
-        <widget class="QLabel" name="label_23">
-         <property name="text">
-          <string>Perturbation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="1">
-        <widget class="QComboBox" name="per_5">
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="19" column="1">
-        <widget class="QComboBox" name="offset_5">
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="20" column="0">
-        <widget class="QCheckBox" name="block_6">
-         <property name="text">
-          <string>Block 6</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="1">
-        <widget class="QComboBox" name="type_6">
-         <item>
-          <property name="text">
-           <string>Low</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>High</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Baseline</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="21" column="0">
-        <widget class="QLabel" name="label_24">
-         <property name="text">
-          <string>Perturbation</string>
-         </property>
-        </widget>
-       </item>
-       <item row="21" column="1">
-        <widget class="QComboBox" name="per_6">
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="22" column="1">
-        <widget class="QComboBox" name="offset_6">
-         <item>
-          <property name="text">
-           <string>Random</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>CCW</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_26">
-         <property name="text">
-          <string>Offset</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_27">
-         <property name="text">
-          <string>Offset</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="label_28">
-         <property name="text">
-          <string>Offset</string>
-         </property>
-        </widget>
-       </item>
-       <item row="16" column="0">
-        <widget class="QLabel" name="label_29">
-         <property name="text">
-          <string>Offset</string>
-         </property>
-        </widget>
-       </item>
-       <item row="19" column="0">
-        <widget class="QLabel" name="label_30">
-         <property name="text">
-          <string>Offset</string>
-         </property>
-        </widget>
-       </item>
-       <item row="22" column="0">
-        <widget class="QLabel" name="label_31">
-         <property name="text">
-          <string>Offset</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
@@ -1014,6 +215,275 @@
          </property>
          <property name="checked">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Start Time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QDoubleSpinBox" name="start_time">
+         <property name="decimals">
+          <number>1</number>
+         </property>
+         <property name="singleStep">
+          <double>0.500000000000000</double>
+         </property>
+         <property name="value">
+          <double>5.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_32">
+         <property name="text">
+          <string>End Time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QDoubleSpinBox" name="end_time">
+         <property name="singleStep">
+          <double>0.500000000000000</double>
+         </property>
+         <property name="value">
+          <double>10.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>fsample (Hz)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QSpinBox" name="fsample">
+         <property name="minimum">
+          <number>10</number>
+         </property>
+         <property name="maximum">
+          <number>500</number>
+         </property>
+         <property name="value">
+          <number>250</number>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Cue Likelyhood</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="High">
+         <property name="text">
+          <string>High</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Perturbation Type</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QCheckBox" name="Baseline">
+         <property name="text">
+          <string>Baseline</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QCheckBox" name="CW">
+         <property name="text">
+          <string>CW</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QCheckBox" name="CCW">
+         <property name="text">
+          <string>CCW</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="QCheckBox" name="UNS">
+         <property name="text">
+          <string>Random</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QCheckBox" name="Low">
+         <property name="text">
+          <string>Low</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Cue</string>
+      </property>
+      <layout class="QFormLayout" name="formLayout_3">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Number of Cue </string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="number_cue">
+         <property name="minimum">
+          <number>2</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="singleStep">
+          <number>2</number>
+         </property>
+         <property name="value">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Holding Time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QDoubleSpinBox" name="cue_holding_time">
+         <property name="decimals">
+          <number>2</number>
+         </property>
+         <property name="singleStep">
+          <double>0.250000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.500000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Rerturn Time</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QDoubleSpinBox" name="cue_return_time">
+         <property name="singleStep">
+          <double>0.250000000000000</double>
+         </property>
+         <property name="value">
+          <double>2.500000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Max Amplitude</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QDoubleSpinBox" name="max_amplitude">
+         <property name="maximum">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.050000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>High Perturbation</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QSpinBox" name="high_perturbation_min_number">
+         <property name="value">
+          <number>6</number>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QSpinBox" name="high_perturbation_max_number">
+         <property name="value">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Low Perturbation</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QSpinBox" name="low_perturbation_min_number">
+         <property name="value">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="QSpinBox" name="low_perturbation_max_number">
+         <property name="value">
+          <number>4</number>
          </property>
         </widget>
        </item>
