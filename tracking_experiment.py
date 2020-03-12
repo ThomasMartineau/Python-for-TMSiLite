@@ -53,7 +53,12 @@ class main_window(QMainWindow):
                 tool.write_to_csv(name, self.table, header = ["Event", "Slope", "Level"])
                 
                 
-                name_list = ["//1_ramps.csv", "//3_ramps.csv", "//2_chirp.csv", "//4_chirp.csv"]
+                # create a name list
+                n = len(self.trajectory)
+                name_list = ['//Block_' + str(k) + '_ramp.csv'  for k in range(0, n, 2)] # even are ramps
+                name_list += ['//Block_' + str(k) + '_chirp.csv' for k in range(1, n, 2)] # odds are 
+                print(name_list)
+                
                 # write the trajectories
                 for k, (X, name) in enumerate(zip(self.trajectory, name_list)):
                     print(name)
@@ -79,8 +84,13 @@ class main_window(QMainWindow):
             
         if target is not '':
             # get the option
-            option = tool.clean_csv_dict(tool.read_to_csv(target))
-                      
+            option = tool.clean_csv_dict(tool.read_csv(target))
+              
+            # start stop
+            self.Start.setValue(option['start'])
+            self.Stop.setValue(option['stop'])
+            self.Block.setValue(option['block'])
+            
             # Ramp
             self.Ramp_Slope.setText(str(option['ramp_slope']))
             self.Ramp_Level.setText(str(option['ramp_level']))
@@ -109,6 +119,7 @@ class main_window(QMainWindow):
         # start stop
         option['start'] = self.Start.value()
         option['stop'] = self.Stop.value()
+        option['block'] = self.Block.value()
         
         # Ramp
         option['ramp_slope'] = eval(self.Ramp_Slope.text())
@@ -170,13 +181,14 @@ class main_window(QMainWindow):
         #RAMP
         ramp = trace.trapezium(option['ramp_slope'], option['ramp_level'], randomise = option['ramp_randomise'], n_instance = option['ramp_repetition'])
         self.table = ramp.table
-        for k in range(0, 2):
+        for k in range(0, option['block']):
             x, event = ramp.bind(t_start = option['start'], t_pause = option['ramp_pause'], t_plateau = option['ramp_plateau'], t_end = option['stop'] - option['ramp_pause'][0])
             self.trajectory += [np.transpose(np.vstack((x, event)))]
-            t = tool.measure_time(x)
+        
         
         # display on the LCD 
-        self.Ramp_Display.display(tool.convert_sec(t, string = True))
+        t_ramp = tool.measure_time(x)
+        self.Ramp_Display.display(tool.convert_sec(t_ramp, string = True))
         
         #CHIRP
         chirp = trace.ramp(level = option['chirp_frequency'], randomise = False, n_instance = 1)
@@ -196,12 +208,16 @@ class main_window(QMainWindow):
         
         print(len(f))
         event = (f[option['chirp_repetition']:] > 0)
-        self.trajectory += [np.transpose(np.vstack((x, event)))]*2
-        t = tool.measure_time(x)
+        self.trajectory += [np.transpose(np.vstack((x, event)))]*option['block']
+        t_chirp = tool.measure_time(x)
         
         # display on the LCD
-        self.Chirp_Display.display(tool.convert_sec(t, string = True))
-              
+        self.Chirp_Display.display(tool.convert_sec(t_chirp, string = True))
+        
+        # display total time
+        total = option['block']*(t_ramp + t_chirp)
+        self.Total_Display.display(tool.convert_sec(total, string = True))
+        
         print('[SUCCESS] all trajectory generated')
         
         

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0" idbasedtr="false">
+<ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>456</height>
+    <width>454</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,43 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QGroupBox" name="groupBox_5">
-      <property name="title">
-       <string>Menu</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="preview_button">
-         <property name="text">
-          <string>Preview</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="generate_button">
-         <property name="text">
-          <string>Generate</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="save_button">
-         <property name="text">
-          <string>Save</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="load_button">
-         <property name="text">
-          <string>Load</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QGroupBox" name="groupBox_2">
       <property name="title">
@@ -72,17 +35,41 @@
          </property>
         </widget>
        </item>
-       <item row="14" column="0" colspan="4">
+       <item row="12" column="0" colspan="4">
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_8">
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_20">
          <property name="text">
-          <string>Slope</string>
+          <string>Repetition</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QRadioButton" name="Ramp_Order">
+         <property name="text">
+          <string>Random Order</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QLineEdit" name="Ramp_Level">
+         <property name="text">
+          <string>[0.5, 1]</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -118,31 +105,24 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Pause Time</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_20">
-         <property name="text">
-          <string>Repetition</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1" colspan="2">
         <widget class="QLineEdit" name="Ramp_Slope">
          <property name="text">
           <string>[ 0.25, 0.5, 0.75, 1]</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Slope</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Pause Time</string>
          </property>
         </widget>
        </item>
@@ -159,16 +139,6 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="0" colspan="2">
-        <widget class="QRadioButton" name="Ramp_Order">
-         <property name="text">
-          <string>Random Order</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="10" column="1" colspan="2">
         <widget class="QSpinBox" name="Ramp_Repetition">
          <property name="minimum">
@@ -182,14 +152,23 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2">
-        <widget class="QLineEdit" name="Ramp_Level">
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Experiment</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>[0.5, 1]</string>
+          <string>START</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="1" colspan="2">
+       <item row="0" column="1">
         <widget class="QDoubleSpinBox" name="Start">
          <property name="minimum">
           <double>5.000000000000000</double>
@@ -199,21 +178,14 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>START</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
+       <item row="1" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>STOP</string>
          </property>
         </widget>
        </item>
-       <item row="13" column="1" colspan="2">
+       <item row="1" column="1">
         <widget class="QDoubleSpinBox" name="Stop">
          <property name="minimum">
           <double>5.000000000000000</double>
@@ -223,10 +195,83 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>BLOCK</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="Block">
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
-    <item row="0" column="2">
+    <item row="2" column="0" colspan="3">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Output </string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>CHIRP BLOCK TIME</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLCDNumber" name="Chirp_Display">
+         <property name="digitCount">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLCDNumber" name="Ramp_Display">
+         <property name="digitCount">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>RAMP BLOCK TIME</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLCDNumber" name="Total_Display"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>TOTAL TIME</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
      <widget class="QGroupBox" name="groupBox_3">
       <property name="title">
        <string>Chirp</string>
@@ -377,43 +422,37 @@
       </layout>
      </widget>
     </item>
-    <item row="1" column="2">
-     <widget class="QGroupBox" name="groupBox_4">
+    <item row="1" column="1" colspan="2">
+     <widget class="QGroupBox" name="groupBox_5">
       <property name="title">
-       <string>Output </string>
+       <string>Menu</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_6">
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_19">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="preview_button">
          <property name="text">
-          <string>CHIRP BLOCK TIME</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <string>Preview</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLCDNumber" name="Chirp_Display">
-         <property name="digitCount">
-          <number>8</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLCDNumber" name="Ramp_Display">
-         <property name="digitCount">
-          <number>8</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_16">
+       <item>
+        <widget class="QPushButton" name="generate_button">
          <property name="text">
-          <string>RAMP BLOCK TIME</string>
+          <string>Generate</string>
          </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="save_button">
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="load_button">
+         <property name="text">
+          <string>Load</string>
          </property>
         </widget>
        </item>
