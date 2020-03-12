@@ -13,7 +13,6 @@ fs_default = 50
 
 # plotting
 def plot_trajectory(x, fs = fs_default): 
-    
     t = get_time_min(x)
     f, ax = plt.subplots()
     ax.plot(t,x)
@@ -53,22 +52,14 @@ def write_to_csv(name, X, header = None, append = False):
     # comman flow control for saving different data types
     def write_to(target, X, header):
         # get the writing function
-        w = csv.writer(target)
-        
+        w = csv.writer(target)        
         if header is not None:
             w.writerow(header)
-        
         # for numpy arrays
-        if type(X) is np.ndarray:
+        if type(X) is np.ndarray or type(X) is list:
             # proceed per column 
-            for k in range(0, X.shape[0]):
-                w.writerow(X[k])
-                
-        # for lists
-        if type(X) is list:
             for x in X:
-                w.writerow(x)
-        
+                w.writerow(x)        
         # for dictionary types
         elif type(X) is dict:
             for key, value in zip(X.keys(), X.values()):
@@ -150,7 +141,29 @@ def rand_sign(n = 1):
     else:
         return -1
     
+def find_edges(x, rise_not_fall = True):
+    # falling the edges in a zero [0, 1] sequence
+    if rise_not_fall:
+        trigger = 1
+        # from https://stackoverflow.com/questions/50365310/python-rising-falling-edge-oscilloscope-like-trigger#50365462
+        return np.flatnonzero((x[:-1] < trigger) & (x[1:] >= trigger)) + 1
+    else:
+        trigger = 1
+        # from https://stackoverflow.com/questions/50365310/python-rising-falling-edge-oscilloscope-like-trigger#50365462
+        return np.flatnonzero((x[:-1] >= trigger) & (x[1:] < trigger)) + 1
+    
+def find_timeindex(t, tk, fs = fs_default):
+    return np.flatnonzero((tk - 1/fs <= t) & (t <= tk + 1/fs))[-1]
+    
 if __name__ == "__main__":
+    # triger
+    x = np.array([0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0])
+    r, f = find_edges(x), find_edges(x, rise_not_fall = False)
+    fs = 5
+    n = 100
+    t = np.linspace(0, n/fs, n)
+    k = find_timeindex(t, 14, fs = fs)
+    print(t[k-1], t[k], t[k+1])
     
     name = "C:\\Users\\Thomas Martineau\\Desktop\\tracking\\Config.csv"
     X = {'test1': 1, 'test2':[2, 3], 'test3': False}
@@ -158,7 +171,7 @@ if __name__ == "__main__":
     X = {'test1': True, 'test2':'x', 'test3': [5,6]}
     write_to_csv(name, X, append = True)
     
-#    name = "C:/Users/tlm111/Documents/PhD year 2/repository/Python-for-TMSiLite/test_save//Block_0.csv"
-#    X = np.random.rand(4,5)
-#    write_to_csv(name, X)
+    name = "C:/Users/tlm111/Documents/PhD year 2/repository/Python-for-TMSiLite/test_save//Block_0.csv"
+    X = np.random.rand(4,5)
+    write_to_csv(name, X)
 
